@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Ticket-Hub</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="profile.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo-section">
+                <h1 class="logo">
+                    <i class="fas fa-film"></i>
+                    Ticket-Hub
+                </h1>
+            </div>
+            <nav class="nav-links">
+                <a href="interface.html">
+                    <i class="fas fa-play-circle"></i>
+                    Now Showing
+                </a>
+                <a href="#">
+                    <i class="fas fa-clock"></i>
+                    Coming Soon
+                </a>
+                <a href="#">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Theaters
+                </a>
+                <a href="#">
+                    <i class="fas fa-ticket-alt"></i>
+                    My Tickets
+                </a>
+            </nav>
+            <div class="user-profile">
+                <button class="btn btn-secondary active">
+                    <i class="fas fa-user"></i>
+                    Profile
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">My Profile</h1>
+            <p class="hero-subtitle">Manage your account and view booking history</p>
+        </div>
+        
+        <div class="profile-container">
+            <aside class="sidebar card">
+            <div class="profile-avatar" id="user-avatar">JD</div>
+            <h3 id="user-name">John Doe</h3>
+            <p id="user-email">john.doe@example.com</p>
+            <nav class="profile-nav">
+                <a href="#dashboard" class="active">Dashboard</a>
+                <a href="#history">Booking History</a>
+                <a href="#settings">Account Settings</a>
+                <a href="index.html" class="logout-link">Log Out</a>
+            </nav>
+        </aside>
+
+        <main class="profile-content">
+            
+            <section id="dashboard" class="content-section active">
+                <h2>Your Dashboard</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>Total Bookings</h4>
+                        <p class="stat-value" id="total-bookings">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Total Spent</h4>
+                        <p class="stat-value" id="total-spent">0.00</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Recent Bookings</h4>
+                        <p class="stat-value" id="recent-bookings">0</p>
+                    </div>
+                </div>
+
+                <h3>Recent Bookings</h3>
+                <div id="recent-bookings-list">
+                    <p>Loading your bookings...</p>
+                </div>
+            </section>
+
+            <section id="history" class="content-section">
+                <h2>Booking History</h2>
+                <div class="history-list" id="booking-history-list">
+                    <p>Loading your booking history...</p>
+                </div>
+            </section>
+
+            <section id="settings" class="content-section">
+                <h2>Account Settings</h2>
+                <form class="settings-form" id="profile-update-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="current-password">Current Password</label>
+                        <input type="password" id="current-password" placeholder="Enter current password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">New Password</label>
+                        <input type="password" id="new-password" placeholder="Enter new password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm New Password</label>
+                        <input type="password" id="confirm-password" placeholder="Confirm new password">
+                    </div>
+                    <button type="submit" class="save-btn">Save Changes</button>
+                </form>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="profile.js"></script>
+</body>
+</html>

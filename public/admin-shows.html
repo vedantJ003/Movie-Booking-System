@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - View Shows</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script defer src="admin-shows.js"></script>
+</head>
+<body>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const priceStandard = document.getElementById('priceStandard');
+        const pricePremium = document.getElementById('pricePremium');
+        const priceVIP = document.getElementById('priceVIP');
+
+        function setDefaultPrices() {
+          priceStandard.value = 12.5;
+          pricePremium.value = 15;
+          priceVIP.value = 20;
+        }
+        setDefaultPrices();
+
+        const addBtn = document.getElementById('addShowBtn');
+        if (addBtn) {
+          addBtn.addEventListener('click', function() {
+            setTimeout(setDefaultPrices, 300); // after add, refill inputs
+          });
+        }
+    });
+    </script>
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo-section">
+                <h1 class="logo">
+                    <i class="fas fa-film"></i>
+                    Ticket-Hub Admin
+                </h1>
+            </div>
+            <nav class="nav-links">
+                <a href="admin.html">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </a>
+                <a href="admin-shows.html" class="active">
+                    <i class="fas fa-calendar-alt"></i>
+                    View Shows
+                </a>
+                <a href="interface.html">
+                    <i class="fas fa-external-link-alt"></i>
+                    Go to Site
+                </a>
+                <a href="index.html">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">Manage Shows</h1>
+            <p class="hero-subtitle">Add, edit, and review movie shows for your theatre.</p>
+        </div>
+        <div class="admin-layout">
+            <main class="content">
+                <div class="card">
+                    <h2 class="title"><i class="fas fa-calendar-alt"></i> Available Shows</h2>
+                    <div class="toolbar">
+                        <div class="inline">
+                            <input id="screen" placeholder="Screen e.g. Screen 1">
+                            <input id="showTime" placeholder="Show Time e.g. 02:00 PM (Matinee)">
+                            <input id="movie" placeholder="Movie title">
+                            <input id="genre" placeholder="Genre e.g. Action, Drama">
+                            <input id="imageUrl" placeholder="Poster URL (https://...)">
+                            <select id="status">
+                                <option value="RUNNING">RUNNING</option>
+                                <option value="STOPPED" selected>STOPPED</option>
+                            </select>
+                            <input id="priceStandard" type="number" step="0.01" placeholder="Standard $" style="width:120px;">
+                            <input id="pricePremium" type="number" step="0.01" placeholder="Premium $" style="width:120px;">
+                            <input id="priceVIP" type="number" step="0.01" placeholder="VIP $" style="width:120px;">
+                            <button id="addShowBtn" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Add Show
+                            </button>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sl.No</th>
+                                <th>Screen</th>
+                                <th>Show Time</th>
+                                <th>Movie</th>
+                                <th>Genre</th>
+                                <th>Prices</th>
+                                <th>Status</th>
+                                <th>Options</th>
+                            </tr>
+                        </thead>
+                        <tbody id="showsBody"></tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
+
+

@@ -1,0 +1,193 @@
+:root {
+    --primary-color: #e50914; /* Cinema Red */
+    --secondary-color: #1a1a1d; /* Deep Dark Background */
+    --card-bg: #2a2a2e; 
+    --ticket-bg: #f8f8f8;
+    --text-color: #f0f0f0; 
+    --success-color: #4CAF50;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.confirmation-container {
+    max-width: 600px;
+    width: 90%;
+    padding: 40px;
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    text-align: center;
+}
+
+.header {
+    margin-bottom: 30px;
+}
+
+.logo {
+    color: var(--primary-color);
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.status-message {
+    font-size: 1.3em;
+    font-weight: 600;
+    padding: 10px 0;
+    color: var(--success-color);
+}
+
+/* --- TICKET CARD STYLING --- */
+.ticket-card-wrapper {
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.ticket-card {
+    width: 100%;
+    background-color: var(--ticket-bg);
+    color: #333;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    /* Simulate a perforated tear line */
+    border: 3px dashed var(--secondary-color);
+}
+
+.ticket-header {
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.ticket-header h2 {
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.cinema-name {
+    color: #555;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+.ticket-details {
+    margin-bottom: 20px;
+}
+
+.detail-group {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 1.1em;
+    border-bottom: 1px dotted #ccc;
+}
+
+.label {
+    font-weight: 400;
+    color: #777;
+}
+
+.value {
+    font-weight: 600;
+    color: #333;
+}
+
+.seats-value {
+    font-size: 1.2em;
+    color: var(--primary-color);
+}
+
+.total-value {
+    color: var(--success-color);
+    font-weight: bold;
+}
+
+.booking-id {
+    font-size: 0.9em;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+}
+
+/* Barcode Simulation */
+.barcode-area {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.barcode {
+    width: 80%;
+    height: 60px;
+    margin: 10px auto;
+    background: repeating-linear-gradient(
+        90deg, 
+        #333, #333 2px, 
+        var(--ticket-bg) 2px, 
+        var(--ticket-bg) 4px
+    );
+}
+
+.barcode-text {
+    font-size: 0.8em;
+    color: #777;
+}
+
+/* --- ACTIONS BUTTONS --- */
+.actions {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.cta-button {
+    padding: 14px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.cta-button.primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.cta-button.primary:hover {
+    background: #ff202e;
+}
+
+.cta-button.secondary {
+    background: var(--secondary-color);
+    color: var(--text-color);
+    border: 1px solid #444;
+}
+
+.cta-button.secondary:hover {
+    background: #333;
+}
+
+@media (max-width: 400px) {
+    .confirmation-container {
+        padding: 20px;
+    }
+}

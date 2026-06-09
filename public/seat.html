@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Immersive Seat Selection | Ticket-Hub</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="seat.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="background-overlay"></div>
+
+    <header class="booking-header">
+        <div class="header-content">
+            <div class="movie-info">
+                <h1 class="movie-title">
+                    <i class="fas fa-film"></i>
+                    Movie Title Placeholder
+                </h1>
+                <div class="showtime-details">
+                    <span class="cinema-name">
+                        <i class="fas fa-building"></i>
+                        Cinema City Plex
+                    </span>
+                    <span class="showtime">
+                        <i class="fas fa-clock"></i>
+                        Showtime Placeholder
+                    </span>
+                    <span class="date">
+                        <i class="fas fa-calendar"></i>
+                        Today
+                    </span>
+                </div>
+            </div>
+            <div class="booking-progress">
+                <div class="progress-step active">
+                    <i class="fas fa-check"></i>
+                    <span>Select Seats</span>
+                </div>
+                <div class="progress-step">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Payment</span>
+                </div>
+                <div class="progress-step">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Confirmation</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="theater-stage">
+        <div class="screen-glow"></div>
+        <div class="screen">Screen</div>
+    </div>
+
+    <div class="seating-area">
+        <div class="seating-grid" id="seating-grid">
+                    </div>
+    </div>
+
+    <div class="legend">
+        <div class="legend-section">
+            <h3 class="legend-title">
+                <i class="fas fa-info-circle"></i>
+                Seat Status
+            </h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="seat-visual available"></div>
+                    <span>Available</span>
+                </div>
+                <div class="legend-item">
+                    <div class="seat-visual occupied"></div>
+                    <span>Occupied</span>
+                </div>
+                <div class="legend-item">
+                    <div class="seat-visual selected"></div>
+                    <span>Selected</span>
+                </div>
+            </div>
+        </div>
+        <div class="legend-section">
+            <h3 class="legend-title">
+                <i class="fas fa-dollar-sign"></i>
+                Pricing
+            </h3>
+            <div class="legend-items">
+                <div class="legend-item price-item">
+                    <div class="seat-visual vip"></div>
+                    <span>VIP: $<span id="price-vip">-</span></span>
+                </div>
+                <div class="legend-item price-item">
+                    <div class="seat-visual premium"></div>
+                    <span>Premium: $<span id="price-premium">-</span></span>
+                </div>
+                <div class="legend-item price-item">
+                    <div class="seat-visual standard"></div>
+                    <span>Standard: $<span id="price-standard">-</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <footer class="booking-summary">
+        <div class="summary-content">
+            <div class="summary-details">
+                <div class="summary-item">
+                    <i class="fas fa-chair"></i>
+                    <span>Seats: <strong id="seats-count">0</strong></span>
+                </div>
+                <div class="summary-item">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span>Total: <strong id="total-price">$0.00</strong></span>
+                </div>
+            </div>
+            <button class="cta-button" id="proceed-button" disabled>
+                <i class="fas fa-arrow-right"></i>
+                Proceed to Payment
+            </button>
+        </div>
+    </footer>
+
+    <script src="seat.js"></script>
+</body>
+</html>

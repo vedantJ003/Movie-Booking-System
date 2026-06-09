@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment | Ticket-Hub</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="pay.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo-section">
+                <h1 class="logo">
+                    <i class="fas fa-film"></i>
+                    Ticket-Hub
+                </h1>
+            </div>
+            <div class="security-info">
+                <div class="secure-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>SSL Secured</span>
+                </div>
+                <div class="timer">
+                    <i class="fas fa-clock"></i>
+                    <span id="timer">15:00</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">Secure Payment</h1>
+            <p class="hero-subtitle">Complete your booking with confidence</p>
+        </div>
+        
+        <div class="payment-grid">
+            <div class="order-summary-card card">
+            <div class="summary-header">
+                <h2><i class="fas fa-ticket-alt"></i> Order Summary</h2>
+                <div class="booking-id">Booking ID: <span id="booking-id-display">#TB123456</span></div>
+            </div>
+            
+            <div class="movie-info">
+                <div class="movie-poster">
+                    <i class="fas fa-film"></i>
+                </div>
+                <div class="movie-details">
+                    <h3 id="summary-movie">Dune: Part Two</h3>
+                    <p class="movie-genre">Sci-Fi • Action</p>
+                </div>
+            </div>
+
+            <div class="show-details">
+                <div class="detail-row">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span class="label">Date:</span>
+                    <span id="summary-date">Today</span>
+                </div>
+                <div class="detail-row">
+                    <i class="fas fa-clock"></i>
+                    <span class="label">Showtime:</span>
+                    <span id="summary-time">05:30 PM</span>
+                </div>
+                <div class="detail-row">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span class="label">Theater:</span>
+                    <span id="summary-theater">Cinema City Plex</span>
+                </div>
+                <div class="detail-row">
+                    <i class="fas fa-chair"></i>
+                    <span class="label">Seats:</span>
+                    <span id="summary-seats">C5, C6, C7</span>
+                </div>
+            </div>
+
+            <div class="pricing-breakdown">
+                <div class="price-row">
+                    <span class="label">Tickets (3x):</span>
+                    <span id="summary-subtotal">$37.50</span>
+                </div>
+                <div class="price-row">
+                    <span class="label">Service Fee:</span>
+                    <span id="summary-fee">$2.50</span>
+                </div>
+                <div class="price-row">
+                    <span class="label">Taxes:</span>
+                    <span id="summary-tax">$0.00</span>
+                </div>
+                <div class="price-row total">
+                    <span class="label">Total:</span>
+                    <span id="summary-total">$40.00</span>
+                </div>
+            </div>
+
+            <div class="cancellation-policy">
+                <i class="fas fa-info-circle"></i>
+                <span>Free cancellation up to 2 hours before showtime</span>
+            </div>
+        </div>
+
+        <div class="payment-form-card card">
+            <div class="payment-header-section">
+                <h2><i class="fas fa-credit-card"></i> Payment Method</h2>
+                <div class="accepted-cards">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-amex"></i>
+                    <i class="fab fa-cc-discover"></i>
+                </div>
+            </div>
+
+            <form id="payment-form">
+                <div class="payment-methods">
+                    <div class="payment-option active" data-method="card">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Credit/Debit Card</span>
+                    </div>
+                    <div class="payment-option" data-method="wallet">
+                        <i class="fas fa-wallet"></i>
+                        <span>Digital Wallet</span>
+                    </div>
+                </div>
+
+                <div class="card-form" id="card-form">
+                    <div class="input-group">
+                        <label for="card-number">
+                            <i class="fas fa-credit-card"></i> Card Number
+                        </label>
+                        <div class="input-with-icon">
+                            <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                            <i class="fas fa-check-circle card-valid" style="display: none;"></i>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="card-name">
+                            <i class="fas fa-user"></i> Name on Card
+                        </label>
+                        <input type="text" id="card-name" placeholder="John A. Doe" required>
+                    </div>
+                    
+                    <div class="split-group">
+                        <div class="input-group">
+                            <label for="expiry-date">
+                                <i class="fas fa-calendar"></i> Expiry Date
+                            </label>
+                            <input type="text" id="expiry-date" placeholder="MM/YY" maxlength="5" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="cvv">
+                                <i class="fas fa-lock"></i> CVV
+                            </label>
+                            <div class="input-with-icon">
+                                <input type="text" id="cvv" placeholder="123" maxlength="4" required>
+                                <i class="fas fa-question-circle cvv-help" title="3-4 digit security code on the back of your card"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="billing-address">
+                        <h4><i class="fas fa-map-marker-alt"></i> Billing Address</h4>
+                        <div class="input-group">
+                            <input type="text" id="billing-address" placeholder="Street Address" required>
+                        </div>
+                        <div class="split-group">
+                            <div class="input-group">
+                                <input type="text" id="billing-city" placeholder="City" required>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" id="billing-zip" placeholder="ZIP Code" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wallet-form" id="wallet-form" style="display: none;">
+                    <div class="wallet-options">
+                        <div class="wallet-option">
+                            <i class="fab fa-paypal"></i>
+                            <span>PayPal</span>
+                        </div>
+                        <div class="wallet-option">
+                            <i class="fab fa-google-pay"></i>
+                            <span>Google Pay</span>
+                        </div>
+                        <div class="wallet-option">
+                            <i class="fab fa-apple-pay"></i>
+                            <span>Apple Pay</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="security-features">
+                    <div class="security-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>256-bit SSL encryption</span>
+                    </div>
+                    <div class="security-item">
+                        <i class="fas fa-lock"></i>
+                        <span>PCI DSS compliant</span>
+                    </div>
+                </div>
+
+                <div class="terms-check">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">
+                        I agree to the <a href="#" onclick="showTerms()">Terms and Conditions</a> and 
+                        <a href="#" onclick="showPrivacy()">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="cta-button" id="pay-button">
+                    <i class="fas fa-lock"></i>
+                    <span>Pay $<span id="button-total">40.00</span> Securely</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="pay.js"></script>
+</body>
+</html>

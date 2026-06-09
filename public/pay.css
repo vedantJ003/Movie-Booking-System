@@ -1,0 +1,587 @@
+/* Payment Page Specific Styles - Balanced Compact */
+/* Global styles are inherited from global.css */
+
+/* Security Info in Navbar */
+.security-info {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.secure-badge {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--success-color);
+    font-size: var(--font-sm);
+    font-weight: 500;
+}
+
+.timer {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--warning-color);
+    font-size: var(--font-sm);
+    font-weight: bold;
+    background: rgba(255, 152, 0, 0.1);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--warning-color);
+}
+
+/* Payment Grid Layout */
+.payment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-xl);
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 var(--spacing-xl);
+}
+
+@media (max-width: 768px) {
+    .payment-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+        padding: 0 var(--spacing-md);
+    }
+}
+
+/* Order Summary Card */
+.order-summary-card {
+    /* Uses global .card padding */
+}
+
+.order-summary-card .card {
+    /* Remove override - use global card styling */
+}
+
+/* Payment Form Card */
+.payment-form-card {
+    /* Uses global .card padding */
+}
+
+.payment-form-card .card {
+    /* Remove override - use global card styling */
+}
+
+/* Section Headers */
+.summary-header h2,
+.payment-header-section h2 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-xl);
+}
+
+/* Order Summary Styling */
+.summary-header {
+    margin-bottom: var(--spacing-md);
+}
+
+.booking-id {
+    color: var(--text-light);
+    font-size: var(--font-sm);
+    margin-top: var(--spacing-sm);
+}
+
+.movie-info {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--glass-bg);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.movie-poster {
+    width: 50px;
+    height: 65px;
+    background: var(--primary-gradient);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: var(--font-md);
+}
+
+.movie-details h3 {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-lg);
+}
+
+.movie-genre {
+    color: var(--text-light);
+    font-size: var(--font-sm);
+}
+
+.show-details {
+    margin-bottom: var(--spacing-md);
+}
+
+.detail-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-light);
+    font-size: var(--font-sm);
+}
+
+.detail-row i {
+    color: var(--primary-color);
+    width: 14px;
+    font-size: var(--font-sm);
+}
+
+.detail-row .label {
+    font-weight: 500;
+    min-width: 70px;
+}
+
+.pricing-breakdown {
+    margin-bottom: var(--spacing-md);
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px dashed var(--border-color);
+    font-size: var(--font-sm);
+}
+
+.price-row:last-child {
+    border-bottom: none;
+}
+
+.price-row.total {
+    font-weight: 600;
+    font-size: var(--font-md);
+    color: var(--primary-color);
+    border-top: 2px solid var(--border-color);
+    padding-top: var(--spacing-md);
+    margin-top: var(--spacing-sm);
+}
+
+.cancellation-policy {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--text-light);
+    font-size: var(--font-sm);
+    padding: var(--spacing-sm);
+    background: rgba(33, 150, 243, 0.1);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(33, 150, 243, 0.2);
+}
+
+.cancellation-policy i {
+    color: var(--info-color);
+    font-size: var(--font-sm);
+}
+
+/* Payment Form Styling */
+.payment-header-section {
+    margin-bottom: var(--spacing-md);
+}
+
+.accepted-cards {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+}
+
+.accepted-cards i {
+    font-size: var(--font-md);
+    color: var(--text-light);
+}
+
+.payment-methods {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.payment-option {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background: var(--glass-bg);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    color: var(--text-light);
+    font-size: var(--font-sm);
+}
+
+.payment-option:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.payment-option.active {
+    border-color: var(--primary-color);
+    background: rgba(229, 9, 20, 0.1);
+    color: var(--primary-color);
+}
+
+.input-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.input-group label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--text-color);
+    font-size: var(--font-sm);
+    font-weight: 500;
+    margin-bottom: var(--spacing-sm);
+}
+
+.input-group label i {
+    color: var(--primary-color);
+    font-size: var(--font-sm);
+    width: 14px;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon input {
+    padding-right: var(--spacing-xl);
+}
+
+.input-with-icon i {
+    position: absolute;
+    right: var(--spacing-md);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--success-color);
+    font-size: var(--font-sm);
+}
+
+.cvv-help {
+    color: var(--text-light) !important;
+    cursor: help;
+}
+
+.split-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+.billing-address {
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+}
+
+.billing-address h4 {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--text-color);
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-md);
+}
+
+.billing-address h4 i {
+    color: var(--primary-color);
+    font-size: var(--font-sm);
+}
+
+.wallet-form {
+    margin-bottom: var(--spacing-md);
+}
+
+.wallet-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.wallet-option {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--glass-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    color: var(--text-light);
+    font-size: var(--font-sm);
+}
+
+.wallet-option:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+.wallet-option i {
+    font-size: var(--font-lg);
+}
+
+.security-features {
+    display: flex;
+    justify-content: space-between;
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-md);
+    background: rgba(76, 175, 80, 0.1);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+.security-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--success-color);
+    font-size: var(--font-sm);
+}
+
+.terms-check {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    margin: var(--spacing-md) 0;
+    font-size: var(--font-sm);
+    color: var(--text-light);
+}
+
+.terms-check input[type="checkbox"] {
+    margin-top: var(--spacing-xs);
+}
+
+.terms-check a {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.terms-check a:hover {
+    color: var(--primary-light);
+}
+
+/* Pay Button */
+.cta-button {
+    width: 100%;
+    padding: var(--spacing-lg);
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--font-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    box-shadow: 
+        0 8px 25px rgba(229, 9, 20, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 12px 35px rgba(229, 9, 20, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.cta-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* QR Scanner Modal Styles */
+.qr-scanner-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+.qr-scanner-content {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 40px var(--shadow-heavy);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+}
+
+.qr-scanner-header {
+    margin-bottom: var(--spacing-lg);
+}
+
+.qr-scanner-header h3 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+}
+
+.qr-scanner-header p {
+    color: var(--text-light);
+    font-size: var(--font-sm);
+}
+
+.scanner-frame {
+    width: 250px;
+    height: 250px;
+    margin: var(--spacing-lg) auto;
+    background: white;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--border-color);
+}
+
+.scanner-frame img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: var(--radius-sm);
+}
+
+.scanner-instructions {
+    color: var(--text-light);
+    font-size: var(--font-sm);
+    margin-top: var(--spacing-lg);
+    line-height: 1.5;
+}
+
+.scanner-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+}
+
+.scanner-actions .btn {
+    flex: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .split-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .security-features {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .scanner-frame {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .qr-scanner-content {
+        padding: var(--spacing-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .payment-grid {
+        gap: var(--spacing-md);
+    }
+    
+    .order-summary-card,
+    .payment-form-card {
+        padding: var(--spacing-md);
+    }
+    
+    .scanner-frame {
+        width: 180px;
+        height: 180px;
+    }
+}
+
+/* --- Modern payment page adjustments by AI --- */
+.order-summary-card,
+.payment-form-card {
+    border: 1.5px solid var(--border-color) !important;
+    box-shadow: 0 4px 32px rgba(229,9,20,0.07);
+}
+
+.summary-header h2, .payment-header-section h2 {
+    color: var(--primary-color);
+    border-bottom: 1.5px solid var(--primary-color);
+}
+
+.payment-option.active {
+    background: var(--primary-gradient);
+    color: #fff !important;
+    font-weight: bold;
+    border-color: var(--primary-color);
+}
+.payment-option:not(.active) {
+    background: #191c21;
+    color: var(--text-light);
+    border-color: var(--border-color);
+}
+
+input, select, textarea {
+    color: #fff !important;
+    background: #23262e !important;
+    border: 1.5px solid var(--border-color);
+    transition: border 0.2s, box-shadow 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.15);
+}
+input::placeholder, textarea::placeholder {
+    color: #aaa !important;
+    opacity: 1;
+}
+
+.cta-button:hover, .cta-button:focus {
+    box-shadow: 0 12px 35px rgba(229,9,20,0.45);
+    filter: brightness(1.08);
+}
+
+.payment-header-section {
+    border: none !important;
+}

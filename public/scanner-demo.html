@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scanner Image Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .demo-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .demo-button {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .demo-button:hover {
+            background: #3367d6;
+        }
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .image-preview {
+            width: 120px;
+            height: 120px;
+            border: 2px solid #4285f4;
+            border-radius: 10px;
+            margin: 10px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Scanner Image Integration Guide</h1>
+    
+    <div class="demo-section">
+        <h2>📁 Where to Add Your Scanner Image</h2>
+        <p>You can add your custom scanner image in several ways:</p>
+        
+        <h3>1. 📂 File Location</h3>
+        <p>Place your scanner image in the <code>public</code> folder:</p>
+        <div class="code-block">
+public/
+├── scanner-image.png          ← Your custom scanner image
+├── fingerprint-scanner.jpg    ← Alternative name
+├── my-scanner.png            ← Another option
+└── ...
+        </div>
+        
+        <h3>2. 🖼️ Image Requirements</h3>
+        <ul>
+            <li><strong>Size:</strong> 120x120 pixels (recommended)</li>
+            <li><strong>Format:</strong> PNG, JPG, or GIF</li>
+            <li><strong>Content:</strong> Fingerprint scanner, biometric sensor, or similar</li>
+            <li><strong>Style:</strong> Should look like a real scanner interface</li>
+        </ul>
+    </div>
+    
+    <div class="demo-section">
+        <h2>🔧 How to Use Your Scanner Image</h2>
+        
+        <h3>Method 1: Replace Default Image</h3>
+        <p>Replace the default image file:</p>
+        <div class="code-block">
+1. Save your image as "scanner-image.png"
+2. Place it in the "public" folder
+3. The scanner will automatically use your image
+        </div>
+        
+        <h3>Method 2: Use JavaScript Functions</h3>
+        <p>Use the built-in functions to set your image:</p>
+        <div class="code-block">
+// Set a custom scanner image
+setScannerImage('your-scanner-image.png');
+
+// Toggle between default and custom image
+toggleScannerImage();
+        </div>
+        
+        <h3>Method 3: Direct HTML Modification</h3>
+        <p>Edit the image source directly in the code:</p>
+        <div class="code-block">
+&lt;img src="your-scanner-image.png" alt="Fingerprint Scanner" class="scanner-image" id="scanner-image"&gt;
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>🎨 Scanner Image Examples</h2>
+        <p>Here are some ideas for your scanner image:</p>
+        
+        <h3>📱 Mobile Scanner</h3>
+        <p>Create an image that looks like a smartphone fingerprint scanner</p>
+        
+        <h3>💳 Card Scanner</h3>
+        <p>Design an image that resembles a credit card chip reader</p>
+        
+        <h3>🔐 Biometric Scanner</h3>
+        <p>Create an image that looks like a professional biometric scanner</p>
+        
+        <h3>🎯 Custom Design</h3>
+        <p>Design your own unique scanner interface</p>
+    </div>
+    
+    <div class="demo-section">
+        <h2>⚡ Live Demo</h2>
+        <p>Test the scanner image functionality:</p>
+        
+        <button class="demo-button" onclick="testScannerImage()">Test Scanner Image</button>
+        <button class="demo-button" onclick="toggleScannerImage()">Toggle Image</button>
+        <button class="demo-button" onclick="setScannerImage('scanner-image.png')">Set Custom Image</button>
+        
+        <div id="demo-result" style="margin-top: 20px; padding: 10px; background: #e8f5e8; border-radius: 5px; display: none;">
+            <p>✅ Scanner image functionality working!</p>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>📝 Code Examples</h2>
+        
+        <h3>Basic Usage</h3>
+        <div class="code-block">
+// Enable your custom scanner image
+setScannerImage('my-scanner.png');
+
+// Toggle between default and custom
+toggleScannerImage();
+        </div>
+        
+        <h3>Advanced Usage</h3>
+        <div class="code-block">
+// Set multiple scanner images
+setScannerImage('scanner-1.png');  // First image
+setScannerImage('scanner-2.png');  // Second image
+setScannerImage('scanner-3.png');  // Third image
+        </div>
+        
+        <h3>Dynamic Image Loading</h3>
+        <div class="code-block">
+// Load image dynamically
+const imagePath = 'scanners/scanner-' + Math.floor(Math.random() * 3) + '.png';
+setScannerImage(imagePath);
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>🚀 Quick Start</h2>
+        <ol>
+            <li>Create your scanner image (120x120 pixels)</li>
+            <li>Save it as <code>scanner-image.png</code> in the <code>public</code> folder</li>
+            <li>Test the payment page - your image will appear automatically</li>
+            <li>Use JavaScript functions for more control</li>
+        </ol>
+    </div>
+    
+    <script>
+        function testScannerImage() {
+            const result = document.getElementById('demo-result');
+            result.style.display = 'block';
+            result.innerHTML = '<p>✅ Scanner image functionality working!</p><p>Your custom scanner image will be displayed in the Google Pay interface.</p>';
+        }
+        
+        // Demo functions (these would work in the actual payment page)
+        function toggleScannerImage() {
+            console.log('Toggle scanner image function called');
+            alert('Toggle function called! In the actual payment page, this would switch between default and custom scanner image.');
+        }
+        
+        function setScannerImage(imagePath) {
+            console.log('Set scanner image to:', imagePath);
+            alert('Set scanner image to: ' + imagePath + '\n\nIn the actual payment page, this would load your custom scanner image.');
+        }
+    </script>
+</body>
+</html>

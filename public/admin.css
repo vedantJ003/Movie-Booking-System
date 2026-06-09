@@ -1,0 +1,71 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0a0a0a;
+    color: #f0f0f0;
+}
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+    width: 240px;
+    background: #12161c;
+    padding: 16px;
+}
+.brand { font-weight: 700; color: #00bcd4; margin-bottom: 12px; }
+.nav a { display: block; color: #cfd8dc; padding: 10px 8px; text-decoration: none; border-radius: 6px; }
+.nav a.active, .nav a:hover { background: #1e2630; color: #fff; }
+.content { flex: 1; padding: 24px; }
+.card { background: #1b1f27; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; }
+.title { color: #00bcd4; margin: 0 0 12px; }
+table { width: 100%; border-collapse: collapse; }
+th, td { border: 1px solid rgba(255,255,255,0.08); padding: 8px; text-align: left; }
+th { background: #222834; }
+.btn { background: #00bcd4; color: #00131a; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+.btn.small { padding: 6px 10px; font-size: 0.9em; }
+.btn.danger { background: #e53935; color: #fff; }
+.btn.warn { background: #ff9800; color: #1a0f00; }
+.btn.success { background: #43a047; color: #001307; }
+.toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  padding-bottom: 5px;
+}
+
+.inline {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  min-width: 300px;
+  padding-bottom: 5px;
+}
+
+@media (max-width: 1200px) {
+  .inline {
+    min-width: 800px;
+  }
+}
+@media (max-width: 900px) {
+  .inline {
+    min-width: 600px;
+  }
+}
+@media (max-width: 600px) {
+  .inline {
+    min-width: 400px;
+    gap: 4px;
+  }
+  .toolbar { gap: 4px; }
+}
+input, select { background: #0f1319; color: #e0e0e0; border: 1px solid #2a2f3a; border-radius: 6px; padding: 6px 8px; }
+
+/* Dashboard helpers */
+.grid { display: grid; gap: 16px; }
+.grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.stat { display: flex; flex-direction: column; gap: 6px; }
+.stat .value { font-size: 1.6rem; font-weight: 700; }
+.muted { color: #9aa4ad; }
+

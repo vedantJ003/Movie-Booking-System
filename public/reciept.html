@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed! | Ticket-Hub</title>
+    <link rel="stylesheet" href="reciept.css"> 
+</head>
+<body>
+
+    <div class="confirmation-container">
+        
+        <div class="header">
+            <h1 class="logo">Ticket-Hub</h1>
+            <p class="status-message success">
+                ✅ Booking Successful! Your tickets are ready.
+            </p>
+        </div>
+
+        <div class="ticket-card-wrapper">
+            
+            <div class="ticket-card">
+                <div class="ticket-header">
+                    <h2>Digital Ticket</h2>
+                    <p class="cinema-name">Cinema City Plex</p>
+                </div>
+                
+                <div class="ticket-details">
+                    <div class="detail-group">
+                        <span class="label">Movie:</span>
+                        <span class="value" id="ticket-movie">Dune: Part Two</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="label">Showtime:</span>
+                        <span class="value" id="ticket-time">05:30 PM (Today)</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="label">Seats:</span>
+                        <span class="value seats-value" id="ticket-seats">C5, C6, C7</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="label">Total Paid:</span>
+                        <span class="value total-value" id="ticket-total">$40.00</span>
+                    </div>
+                    <div class="detail-group booking-id">
+                        <span class="label">Booking ID:</span>
+                        <span class="value" id="ticket-booking-id">RB12345678</span>
+                    </div>
+                </div>
+
+                <div class="barcode-area">
+                    <div class="barcode"></div>
+                    <p class="barcode-text">Scan at the entrance</p>
+                </div>
+
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button class="cta-button primary" id="download-ticket">
+                Download PDF Ticket
+            </button>
+            <button class="cta-button secondary" id="return-to-interface">
+                Return to Movie Interface
+            </button>
+        </div>
+        
+    </div>
+
+    <script src="reciept.js"></script>
+</body>
+</html>

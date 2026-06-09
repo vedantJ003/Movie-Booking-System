@@ -1,0 +1,722 @@
+:root {
+    --primary-color: #e50914; /* Cinema Red */
+    --primary-gradient: linear-gradient(135deg, #e50914, #ff6b6b);
+    --secondary-color: #0d0d10; /* Deep Dark Background */
+    --text-color: #f0f0f0; 
+    --text-light: rgba(240, 240, 240, 0.8);
+    --occupied-color: #4a4a4a; /* Darker grey for occupied */
+    --available-color: #6a6a6a; /* Softer grey for available */
+    --selected-color: var(--primary-color);
+    --hover-color: #f75252; /* Lighter red for hover */
+    --seat-border: rgba(255, 255, 255, 0.1);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --success-color: #4CAF50;
+    --warning-color: #FF9800;
+    --error-color: #f44336;
+    --font-xs: 0.55rem;
+    --font-sm: 0.66rem;
+    --font-md: 0.82rem;
+    --font-lg: 0.98rem;
+    --font-xl: 1.09rem;
+    --spacing-xs: 0.08rem;
+    --spacing-sm: 0.17rem;
+    --spacing-md: 0.35rem;
+    --spacing-lg: 0.6rem;
+    --spacing-xl: 0.98rem;
+    --radius-sm: 2px;
+    --radius-md: 6px;
+    --radius-lg: 10px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'Arial', sans-serif;
+}
+
+body {
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(229, 9, 20, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #0d0d10 0%, #1a1a1d 100%);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    perspective: 1000px;
+    font-size: var(--font-md);
+}
+
+/* --- Creative Background --- */
+.background-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: 
+        radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 80%), /* Vignette */
+        url('theater_texture.jpg') repeat; /* Subtle texture, create or use a dark pattern */
+    background-size: cover;
+    opacity: 0.6;
+    z-index: -1;
+}
+
+/* --- ENHANCED HEADER --- */
+.booking-header {
+    width: 100%;
+    padding: 30px 40px;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+.movie-info {
+    flex: 1;
+}
+
+.movie-title {
+    color: var(--primary-color);
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.movie-title i {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 1.2em;
+}
+
+.showtime-details {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.showtime-details span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-light);
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.showtime-details i {
+    color: var(--primary-color);
+    font-size: 0.9em;
+}
+
+.booking-progress {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 15px 20px;
+    border-radius: 12px;
+    background: var(--glass-bg);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.progress-step.active {
+    background: var(--primary-gradient);
+    border-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.3);
+}
+
+.progress-step i {
+    font-size: 1.2rem;
+}
+
+.progress-step span {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* --- Theater Stage & Screen --- */
+.theater-stage {
+    position: relative;
+    width: 80%;
+    max-width: 900px;
+    height: 120px;
+    background: linear-gradient(to top, #333, #111);
+    margin-top: 30px;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    transform: rotateX(-20deg) scale(0.9); /* Tilt and scale for perspective */
+    transform-origin: center bottom;
+    z-index: 5;
+}
+
+.screen {
+    position: absolute;
+    bottom: 0; left: 5%;
+    width: 90%;
+    height: 80px;
+    background: linear-gradient(to right, #222, #555, #222);
+    color: var(--secondary-color);
+    text-align: center;
+    line-height: 80px;
+    font-size: 1.5em;
+    font-weight: bold;
+    border-radius: 10px / 40px; /* Elliptical corners */
+    box-shadow: 0 0 40px rgba(229, 9, 20, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.screen-glow {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 100%;
+    background: radial-gradient(ellipse at center, rgba(229, 9, 20, 0.2) 0%, rgba(229, 9, 20, 0) 70%);
+    opacity: 0.8;
+}
+
+/* --- Seating Area --- */
+.seating-area {
+    width: 100%;
+    max-width: 1000px; /* Wider area for the seats */
+    padding: 50px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotateX(-10deg) translateY(-20px); /* Adjust perspective and position */
+    transform-origin: center top;
+    margin-top: -50px; /* Overlap with stage */
+    z-index: 8;
+}
+
+.seating-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Closer rows */
+    background: rgba(0, 0, 0, 0.3); /* Transparent background for seating area */
+    padding: 30px 20px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 800px; /* Adjust grid width */
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    gap: 8px; /* Closer seats */
+    align-items: center;
+}
+
+.seat-label {
+    width: 25px; /* Size for row letters */
+    height: 25px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: var(--text-color);
+    margin-right: 10px; /* Space between label and first seat */
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+}
+
+.seat {
+    position: relative;
+    width: 35px; /* Larger seat for detail */
+    height: 30px;
+    border-radius: 8px 8px 0 0; /* Shaped like a cinema seat back */
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+    background-color: var(--available-color);
+    border-bottom: 3px solid #333; /* Seat bottom visual */
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Seat hover effect */
+.seat:not(.occupied):hover {
+    background-color: var(--hover-color);
+    transform: translateY(-5px) scale(1.05); /* Lift effect */
+    box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4), inset 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Seat States */
+.seat.available {
+    background-color: var(--available-color);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.seat.occupied {
+    background-color: var(--occupied-color);
+    cursor: not-allowed;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7);
+    opacity: 0.7;
+}
+
+.seat.selected {
+    background-color: var(--selected-color);
+    border: 1px solid var(--primary-color);
+    transform: translateY(-5px) scale(1.05); /* Lifted and bright */
+    box-shadow: 0 5px 20px rgba(229, 9, 20, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Categories */
+.seat.vip { background-color: #d4af37; }
+.seat.premium { background-color: #6fa8dc; }
+.seat.standard { background-color: #7ad17a; }
+
+/* Seat Number/ID overlay (optional) */
+.seat::after {
+    content: attr(data-seat-id);
+    position: absolute;
+    bottom: -15px; /* Position below the seat */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.6em;
+    color: rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.seat:not(.occupied):hover::after,
+.seat.selected::after {
+    opacity: 1;
+}
+
+
+/* --- ENHANCED LEGEND --- */
+.legend {
+    display: flex;
+    gap: 40px;
+    padding: 30px 40px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    margin-top: 40px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 0 0 1px var(--border-color);
+    z-index: 10;
+    border: 1px solid var(--border-color);
+}
+
+.legend-section {
+    flex: 1;
+}
+
+.legend-title {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-title i {
+    color: var(--primary-color);
+    font-size: 1rem;
+}
+
+.legend-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: var(--text-light);
+}
+
+.legend-item .seat-visual {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    border-bottom: 3px solid #333;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s ease;
+}
+
+.legend-item:hover .seat-visual {
+    transform: scale(1.1);
+}
+
+.seat-visual.available { background-color: var(--available-color); }
+.seat-visual.occupied { background-color: var(--occupied-color); }
+.seat-visual.selected { background-color: var(--selected-color); }
+.seat-visual.vip { background: linear-gradient(135deg, #d4af37, #f4d03f); }
+.seat-visual.premium { background: linear-gradient(135deg, #6fa8dc, #85c1e9); }
+.seat-visual.standard { background: linear-gradient(135deg, #7ad17a, #82e0aa); }
+
+.price-item {
+    font-weight: 500;
+}
+
+.price-item span {
+    color: var(--text-color);
+}
+
+
+/* --- ENHANCED FOOTER/SUMMARY --- */
+.booking-summary {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 30px 40px;
+    margin-top: auto; 
+    border-top: 1px solid var(--border-color);
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+.summary-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+.summary-details {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2rem;
+    color: var(--text-light);
+}
+
+.summary-item i {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.summary-item strong {
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+.cta-button {
+    padding: 20px 40px;
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 8px 25px rgba(229, 9, 20, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.cta-button:hover::before {
+    left: 100%;
+}
+
+.cta-button:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 12px 35px rgba(229, 9, 20, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.cta-button:active:not(:disabled) {
+    transform: translateY(-1px) scale(0.98);
+}
+
+.cta-button:disabled {
+    background: rgba(92, 5, 10, 0.6);
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.6;
+}
+
+.cta-button i {
+    font-size: 1.1rem;
+}
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 768px) {
+    .booking-header {
+        padding: 20px;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+    
+    .movie-title {
+        font-size: 1.8rem;
+        justify-content: center;
+    }
+    
+    .showtime-details {
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    .booking-progress {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .progress-step {
+        min-width: 100px;
+        padding: 10px 15px;
+    }
+    
+    .theater-stage {
+        width: 95%;
+        height: 80px;
+        transform: rotateX(-15deg) scale(0.95);
+        margin-top: 20px;
+    }
+    
+    .screen {
+        height: 60px;
+        line-height: 60px;
+        font-size: 1.2em;
+    }
+    
+    .seating-area {
+        padding: 30px 10px;
+        margin-top: -30px;
+        transform: rotateX(-8deg) translateY(-10px);
+    }
+    
+    .seating-grid {
+        padding: 20px 10px;
+        gap: 8px;
+    }
+    
+    .row {
+        gap: 6px;
+    }
+    
+    .seat {
+        width: 30px;
+        height: 25px;
+        border-radius: 6px 6px 0 0;
+    }
+    
+    .seat-label {
+        width: 20px;
+        height: 20px;
+        font-size: 0.7em;
+        margin-right: 5px;
+    }
+    
+    .booking-summary {
+        padding: 20px;
+    }
+    
+    .summary-content {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+    
+    .summary-details {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .summary-item {
+        font-size: 1rem;
+    }
+    
+    .cta-button {
+        padding: 15px 30px;
+        font-size: 1.1rem;
+    }
+    
+    .legend {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+    
+    .legend-item {
+        font-size: 0.9em;
+    }
+    
+    .legend-item .seat-visual {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .booking-header {
+        padding: 15px;
+    }
+    
+    .movie-title {
+        font-size: 1.5rem;
+    }
+    
+    .showtime-details {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .theater-stage {
+        width: 98%;
+        height: 60px;
+        margin-top: 15px;
+    }
+    
+    .screen {
+        height: 45px;
+        line-height: 45px;
+        font-size: 1em;
+    }
+    
+    .seating-area {
+        padding: 20px 5px;
+    }
+    
+    .seat {
+        width: 25px;
+        height: 20px;
+    }
+    
+    .seat-label {
+        width: 18px;
+        height: 18px;
+        font-size: 0.6em;
+    }
+    
+    .legend {
+        padding: 15px;
+        border-radius: 15px;
+    }
+    
+    .booking-summary {
+        padding: 15px;
+    }
+    
+    .cta-button {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+}
+
+/* --- ANIMATIONS --- */
+@keyframes seatPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.seat.selected {
+    animation: seatPulse 2s ease-in-out infinite;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.movie-title,
+.showtime-details,
+.theater-stage,
+.seating-area,
+.legend,
+.booking-summary {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.movie-title { animation-delay: 0.1s; }
+.showtime-details { animation-delay: 0.2s; }
+.theater-stage { animation-delay: 0.3s; }
+.seating-area { animation-delay: 0.4s; }
+.legend { animation-delay: 0.5s; }
+.booking-summary { animation-delay: 0.6s; }
+
+/* --- ACCESSIBILITY --- */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* --- DARK MODE SUPPORT --- */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-color: #f0f0f0;
+        --text-light: rgba(240, 240, 240, 0.8);
+    }
+}

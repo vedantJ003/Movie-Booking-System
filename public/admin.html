@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Ticket-Hub</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userRaw = localStorage.getItem('currentUser');
+            if (!userRaw) {
+                alert('Please log in first.');
+                window.location.href = 'index.html';
+                return;
+            }
+            const user = JSON.parse(userRaw);
+            if (!user || user.role !== 'Admin') {
+                alert('Admins only. Redirecting...');
+                window.location.href = 'interface.html';
+                return;
+            }
+            const welcome = document.getElementById('welcome');
+            if (welcome && user && user.username) {
+                welcome.textContent = `Welcome, ${user.username}`;
+            }
+
+            const BASE_URL = 'http://localhost:3000/api';
+            const tbody = document.getElementById('bookings-body');
+            const statBookings = document.getElementById('statBookings');
+            const statPending = document.getElementById('statPending');
+            const statRunning = document.getElementById('statRunning');
+            const summaryBody = document.getElementById('summary-body');
+            const bookingsTotalCell = document.getElementById('bookings-total');
+
+            async function loadBookings() {
+                tbody.innerHTML = '<tr><td colspan="7">Loading...</td></tr>';
+                try {
+                    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+                    const isGlobalAdmin = !currentUser.theatreName;
+                    // For theatre-specific admins, show bookings for their theatre OR bookings with no theatre specified
+                    const query = isGlobalAdmin ? '' : `?theatreName=${encodeURIComponent(currentUser.theatreName)}`;
+                    const res = await fetch(`${BASE_URL}/bookings${query}`);
+                    const data = await res.json();
+                    if (!data.success) throw new Error('Failed to fetch bookings');
+                    let bookings = data.bookings || [];
+                    
+                    // For theatre-specific admins, also include bookings with empty theatreName
+                    if (!isGlobalAdmin && currentUser.theatreName) {
+                        const emptyTheatreRes = await fetch(`${BASE_URL}/bookings?theatreName=`);
+                        const emptyTheatreData = await emptyTheatreRes.json();
+                        if (emptyTheatreData.success) {
+                            const emptyTheatreBookings = emptyTheatreData.bookings || [];
+                            // Merge and deduplicate bookings
+                            const existingIds = new Set(bookings.map(b => b._id));
+                            const additionalBookings = emptyTheatreBookings.filter(b => !existingIds.has(b._id));
+                            bookings = [...bookings, ...additionalBookings];
+                        }
+                    }
+                    
+                    renderRows(bookings);
+                    // Update stats
+                    if (statBookings) statBookings.textContent = String(bookings.length);
+                    if (statPending) statPending.textContent = String(bookings.filter(b => b.status === 'PENDING').length);
+                    // Update total amount
+                    const totalAmount = bookings.reduce((sum, b) => sum + (Number(b.totalPrice) || 0), 0);
+                    if (bookingsTotalCell) bookingsTotalCell.innerHTML = `<strong>$${totalAmount.toFixed(2)}</strong>`;
+                } catch (e) {
+                    tbody.innerHTML = '<tr><td colspan="7">Error loading bookings</td></tr>';
+                }
+            }
+
+            // Running shows count
+            async function loadRunningShows() {
+                try {
+                    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+                    const theatreName = currentUser && currentUser.theatreName ? encodeURIComponent(currentUser.theatreName) : '';
+                    const query = theatreName ? `?theatreName=${theatreName}` : '';
+                    const res = await fetch(`${BASE_URL}/shows${query}`);
+                    const data = await res.json();
+                    if (data && data.success && Array.isArray(data.shows)) {
+                        const running = data.shows.filter(s => s.status === 'RUNNING').length;
+                        if (statRunning) statRunning.textContent = String(running);
+                    }
+                } catch (_) {}
+            }
+
+            function renderRows(bookings) {
+                if (!bookings.length) {
+                    tbody.innerHTML = '<tr><td colspan="7">No bookings found</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = bookings.map(b => {
+                    const seats = (b.seats || []).join(', ');
+                    const dateStr = new Date(b.bookingDate).toLocaleString();
+                    return `
+                        <tr data-id="${b._id}">
+                            <td>${b.movieTitle}</td>
+                            <td>${b.screen || '-'}</td>
+                            <td>${b.showtime}</td>
+                            <td>${seats}</td>
+                            <td>${b.totalPrice}</td>
+                            <td>${dateStr}</td>
+                            <td>
+                                <select class="status-select">
+                                    <option value="PENDING" ${b.status==='PENDING'?'selected':''}>PENDING</option>
+                                    <option value="PAID" ${b.status==='PAID'?'selected':''}>PAID</option>
+                                    <option value="CANCELLED" ${b.status==='CANCELLED'?'selected':''}>CANCELLED</option>
+                                </select>
+                            </td>
+                            <td class="inline-actions">
+                                <button class="cta-button small save-btn">Save</button>
+                                <button class="cta-button small delete-btn" style="background:#a11">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+                // Wire actions
+                tbody.querySelectorAll('.save-btn').forEach(btn => btn.addEventListener('click', onSave));
+                tbody.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', onDelete));
+            }
+
+            async function onSave(e) {
+                const tr = e.target.closest('tr');
+                const id = tr.getAttribute('data-id');
+                const status = tr.querySelector('.status-select').value;
+                try {
+                    const res = await fetch(`${BASE_URL}/bookings/${id}`, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ status })
+                    });
+                    const data = await res.json();
+                    if (!data.success) throw new Error('Update failed');
+                    alert('Status updated');
+                } catch (err) {
+                    alert('Error updating status');
+                }
+            }
+
+            async function onDelete(e) {
+                const tr = e.target.closest('tr');
+                const id = tr.getAttribute('data-id');
+                if (!confirm('Delete this booking?')) return;
+                try {
+                    const res = await fetch(`${BASE_URL}/bookings/${id}`, { method: 'DELETE' });
+                    const data = await res.json();
+                    if (!data.success) throw new Error('Delete failed');
+                    tr.remove();
+                } catch (err) {
+                    alert('Error deleting booking');
+                }
+            }
+
+            const refresh = () => { loadBookings(); loadRunningShows(); loadSummary(); };
+            loadBookings();
+            loadRunningShows();
+
+            // Load grouped summary by movie+time+screen
+            async function loadSummary() {
+                if (!summaryBody) return;
+                summaryBody.innerHTML = '<tr><td colspan="6">Loading...</td></tr>';
+                try {
+                    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+                    const isGlobalAdmin = !currentUser.theatreName;
+                    let summary = [];
+                    
+                    // Get bookings for the admin's theatre
+                    const theatreName = currentUser && currentUser.theatreName ? encodeURIComponent(currentUser.theatreName) : '';
+                    const query = theatreName ? `?theatreName=${theatreName}` : '';
+                    const res = await fetch(`${BASE_URL}/bookings/summary${query}`);
+                    const data = await res.json();
+                    if (data.success) {
+                        summary = data.summary || [];
+                    }
+                    
+                    // For theatre-specific admins, also include bookings with empty theatreName
+                    if (!isGlobalAdmin && currentUser.theatreName) {
+                        const emptyTheatreRes = await fetch(`${BASE_URL}/bookings/summary?theatreName=`);
+                        const emptyTheatreData = await emptyTheatreRes.json();
+                        if (emptyTheatreData.success) {
+                            const emptyTheatreSummary = emptyTheatreData.summary || [];
+                            // Merge summaries by combining totals for same movie+time+screen combinations
+                            const summaryMap = new Map();
+                            
+                            // Add existing summary
+                            summary.forEach(item => {
+                                const key = `${item._id.movieTitle}-${item._id.showtime}-${item._id.screen}`;
+                                summaryMap.set(key, item);
+                            });
+                            
+                            // Add empty theatre summary
+                            emptyTheatreSummary.forEach(item => {
+                                const key = `${item._id.movieTitle}-${item._id.showtime}-${item._id.screen}`;
+                                if (summaryMap.has(key)) {
+                                    const existing = summaryMap.get(key);
+                                    existing.totalBookings += item.totalBookings;
+                                    existing.totalSeats += item.totalSeats;
+                                    existing.totalRevenue += item.totalRevenue;
+                                } else {
+                                    summaryMap.set(key, item);
+                                }
+                            });
+                            
+                            summary = Array.from(summaryMap.values());
+                        }
+                    }
+                    
+                    const rows = summary.map((g, idx) => {
+                        const key = g._id || {};
+                        return `
+                            <tr>
+                                <td>${idx + 1}</td>
+                                <td>${key.screen || '-'}</td>
+                                <td>${key.showtime}</td>
+                                <td>${key.movieTitle}</td>
+                                <td>${g.totalBookings}</td>
+                                <td>${g.totalSeats}</td>
+                            </tr>
+                        `;
+                    }).join('');
+                    summaryBody.innerHTML = rows || '<tr><td colspan="6">No data</td></tr>';
+                } catch (e) {
+                    summaryBody.innerHTML = '<tr><td colspan="6">Error loading summary</td></tr>';
+                }
+            }
+
+            loadSummary();
+            // Manual refresh and on-focus refresh (no auto-interval)
+            const refreshBtn = document.getElementById('refreshBtn');
+            if (refreshBtn) refreshBtn.addEventListener('click', refresh);
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) refresh();
+            });
+        });
+    </script>
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo-section">
+                <h1 class="logo">
+                    <i class="fas fa-film"></i>
+                    Ticket-Hub Admin
+                </h1>
+            </div>
+            <nav class="nav-links">
+                <a href="admin.html" class="active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </a>
+                <a href="admin-shows.html">
+                    <i class="fas fa-calendar-alt"></i>
+                    View Shows
+                </a>
+                <a href="interface.html">
+                    <i class="fas fa-external-link-alt"></i>
+                    Go to Site
+                </a>
+                <a href="index.html">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">Admin Dashboard</h1>
+            <p class="hero-subtitle">Manage bookings and monitor theatre performance</p>
+        </div>
+        
+        <div class="admin-layout">
+            <main class="content">
+                <div class="card">
+                    <h2 id="welcome">Welcome</h2>
+                    <p class="text-muted">Manage movies, shows, and bookings.</p>
+                    <div class="stats-grid">
+                        <div class="stat-card card">
+                            <div class="stat-icon">
+                                <i class="fas fa-ticket-alt"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-label">Total Bookings</div>
+                                <div class="stat-value" id="statBookings">-</div>
+                            </div>
+                        </div>
+                        <div class="stat-card card">
+                            <div class="stat-icon">
+                                <i class="fas fa-play-circle"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-label">Running Shows</div>
+                                <div class="stat-value" id="statRunning">-</div>
+                            </div>
+                        </div>
+                        <div class="stat-card card">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-label">Pending Payments</div>
+                                <div class="stat-value" id="statPending">-</div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="toolbar">
+                    <a href="admin-shows.html" class="btn btn-primary">
+                        <i class="fas fa-calendar-plus"></i>
+                        Manage Shows
+                    </a>
+                    <button id="refreshBtn" class="btn btn-secondary">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                    <a href="interface.html" class="btn btn-secondary">
+                        <i class="fas fa-external-link-alt"></i>
+                        View Site
+                    </a>
+                    <a href="index.html" class="btn btn-secondary">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Log Out
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top:16px;">
+                <h3 class="title">Recent Bookings</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Movie</th>
+                            <th>Screen</th>
+                            <th>Showtime</th>
+                            <th>Seats</th>
+                            <th>Total</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookings-body"></tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3"><strong>Total</strong></td>
+                            <td id="bookings-total"><strong>$0.00</strong></td>
+                            <td colspan="3"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="card" style="margin-top:16px;">
+                <h3 class="title">Total Bookings by Screen / Time / Movie</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sl.No</th>
+                            <th>Screen</th>
+                            <th>Show Time</th>
+                            <th>Movie</th>
+                            <th>Total Bookings</th>
+                            <th>Total Seats</th>
+                        </tr>
+                    </thead>
+                    <tbody id="summary-body"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
+
+
